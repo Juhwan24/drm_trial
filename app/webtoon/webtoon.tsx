@@ -7,7 +7,7 @@ export default function WebToon() {
     <div className="w-full h-[100%] bg-white flex flex-col flex-1 items-center justify-center">
       <Image
         className=""
-        src="/manga_long.png"
+        src="/image1.png"
         alt="MANGA"
         width={500}
         height={20}
@@ -15,7 +15,7 @@ export default function WebToon() {
       />
       <Image
         className=""
-        src="/manga_long2.png"
+        src="/image2.png"
         alt="MANGA"
         width={500}
         height={20}
@@ -23,7 +23,7 @@ export default function WebToon() {
       />
       <Image
         className=""
-        src="/manga_long3.png"
+        src="/image3.png"
         alt="MANGA"
         width={500}
         height={20}
@@ -31,7 +31,7 @@ export default function WebToon() {
       />
       <Image
         className=""
-        src="/manga_long4.png"
+        src="/image4.png"
         alt="MANGA"
         width={500}
         height={20}
@@ -39,7 +39,7 @@ export default function WebToon() {
       />
       <Image
         className=""
-        src="/manga_long5.png"
+        src="/image5.png"
         alt="MANGA"
         width={500}
         height={20}
