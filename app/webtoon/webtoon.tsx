@@ -12,14 +12,16 @@ export default function WebToon() {
         width={500}
         height={20}
         priority
+        unoptimized
       />
       <Image
         className=""
-        src="/image6.png"
+        src="/image2.png"
         alt="MANGA"
         width={500}
         height={20}
         priority
+        unoptimized
       />
       <Image
         className=""
@@ -28,6 +30,7 @@ export default function WebToon() {
         width={500}
         height={20}
         priority
+        unoptimized
       />
       <Image
         className=""
@@ -36,6 +39,7 @@ export default function WebToon() {
         width={500}
         height={20}
         priority
+        unoptimized
       />
       <Image
         className=""
@@ -44,6 +48,7 @@ export default function WebToon() {
         width={500}
         height={20}
         priority
+        unoptimized
       />
     </div>
   );
