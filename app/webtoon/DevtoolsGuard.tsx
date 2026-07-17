@@ -90,18 +90,20 @@ export default function DevtoolsGuard({ children }: DevtoolsGuardProps) {
     };
 
     document.addEventListener("keydown", handleKeyDown, true);
-    document.addEventListener("contextmenu", handleContextMenu, true);
+    //document.addEventListener("contextmenu", handleContextMenu, true);
     window.addEventListener("resize", checkDevtoolsBySize);
 
+    
     const intervalId = window.setInterval(() => {
-      checkDevtoolsBySize();
+      //checkDevtoolsBySize();
       checkDevtoolsByDebuggerDelay();
     }, 1000);
+    
 
     return () => {
       destroyed = true;
 
-      document.removeEventListener("keydown", handleKeyDown, true);
+      //document.removeEventListener("keydown", handleKeyDown, true);
       document.removeEventListener("contextmenu", handleContextMenu, true);
       window.removeEventListener("resize", checkDevtoolsBySize);
       window.clearInterval(intervalId);
