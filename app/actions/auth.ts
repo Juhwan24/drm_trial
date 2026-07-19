@@ -3,12 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { isAPIError } from "better-auth/api";
 import { auth } from "@/lib/auth";
-
-type AuthActionResult = {
-  ok: boolean;
-  message?: string;
-};
 
 const DEFAULT_SIGN_IN_REDIRECT = "/webtoon";
 const DEFAULT_SIGN_OUT_REDIRECT = "/";
@@ -28,25 +24,20 @@ function readRedirectTo(formData: FormData, fallback: string) {
   return redirectTo.startsWith("/") ? redirectTo : fallback;
 }
 
-function getErrorMessage(error: unknown) {
-  if (error instanceof Error && error.message) {
-    return error.message;
-  }
-
-  return "Failed to process the auth request.";
-}
-
-export async function signUpAction(
-  formData: FormData,
-): Promise<void> {
+export async function signUpAction(formData: FormData) {
   const name = readString(formData, "name");
   const email = readString(formData, "email");
   const password = readString(formData, "password");
-  const redirectTo = readRedirectTo(formData, DEFAULT_SIGN_IN_REDIRECT);
+  const redirectTo = readRedirectTo(
+    formData,
+    DEFAULT_SIGN_IN_REDIRECT,
+  );
 
   if (!name || !email || !password) {
-    redirect("/singup?error=what?");
+    redirect("/signup?error=missing");
   }
+
+  let failed = false;
 
   try {
     await auth.api.signUpEmail({
@@ -54,26 +45,43 @@ export async function signUpAction(
         name,
         email,
         password,
-        rememberMe: readBoolean(formData, "rememberMe"),
       },
       headers: await headers(),
     });
-  } catch{
-    redirect("/signup?error=invalid")
+  } catch (error) {
+    failed = true;
+
+    if (isAPIError(error)) {
+      console.error("회원가입 실패:", {
+        message: error.message,
+        status: error.status,
+      });
+    } else {
+      console.error("회원가입 알 수 없는 오류:", error);
+    }
+  }
+
+  if (failed) {
+    redirect("/signup?error=invalid");
   }
 
   revalidatePath("/", "layout");
   redirect(redirectTo);
 }
 
-export async function signInAction(formData: FormData): Promise<void> {
+export async function signInAction(formData: FormData) {
   const email = readString(formData, "email");
   const password = readString(formData, "password");
-  const redirectTo = readRedirectTo(formData, DEFAULT_SIGN_IN_REDIRECT);
+  const redirectTo = readRedirectTo(
+    formData,
+    DEFAULT_SIGN_IN_REDIRECT,
+  );
 
   if (!email || !password) {
     redirect("/login?error=missing");
   }
+
+  let failed = false;
 
   try {
     await auth.api.signInEmail({
@@ -84,7 +92,20 @@ export async function signInAction(formData: FormData): Promise<void> {
       },
       headers: await headers(),
     });
-  } catch {
+  } catch (error) {
+    failed = true;
+
+    if (isAPIError(error)) {
+      console.error("로그인 실패:", {
+        message: error.message,
+        status: error.status,
+      });
+    } else {
+      console.error("로그인 알 수 없는 오류:", error);
+    }
+  }
+
+  if (failed) {
     redirect("/login?error=invalid");
   }
 

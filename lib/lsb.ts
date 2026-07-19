@@ -1,7 +1,5 @@
 import { PNG } from "pngjs";
 
-
-
 const MARKER = [0xab, 0xcd];
 const TOKEN_BYTES = 8;
 const PAYLOAD_BITS = (MARKER.length + TOKEN_BYTES + 1) * 8; // 88

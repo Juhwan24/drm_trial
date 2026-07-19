@@ -5,9 +5,8 @@ import { prisma } from "@/lib/prisma";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: "postgresql",
+    provider: "sqlite",
   }),
-
   baseURL: process.env.BETTER_AUTH_URL,
   emailAndPassword: { enabled: true },
   plugins: [nextCookies()],

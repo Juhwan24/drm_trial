@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
 }
 
 model account {
@@ -15,12 +15,12 @@ model account {
   accessToken           String?
   refreshToken          String?
   idToken               String?
-  accessTokenExpiresAt  DateTime? @db.Timestamptz(6)
-  refreshTokenExpiresAt DateTime? @db.Timestamptz(6)
+  accessTokenExpiresAt  DateTime? 
+  refreshTokenExpiresAt DateTime? 
   scope                 String?
   password              String?
-  createdAt             DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt             DateTime  @db.Timestamptz(6)
+  createdAt             DateTime   
+  updatedAt             DateTime  
   user                  user      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([userId])
@@ -28,10 +28,10 @@ model account {
 
 model session {
   id        String   @id
-  expiresAt DateTime @db.Timestamptz(6)
+  expiresAt DateTime 
   token     String   @unique
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @db.Timestamptz(6)
+  createdAt DateTime  
+  updatedAt DateTime 
   ipAddress String?
   userAgent String?
   userId    String
@@ -46,8 +46,8 @@ model user {
   email         String    @unique
   emailVerified Boolean
   image         String?
-  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime  @default(now()) @db.Timestamptz(6)
+  createdAt     DateTime   
+  updatedAt     DateTime   
   account       account[]
   session       session[]
 }
@@ -56,9 +56,9 @@ model verification {
   id         String   @id
   identifier String
   value      String
-  expiresAt  DateTime @db.Timestamptz(6)
-  createdAt  DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt  DateTime @default(now()) @db.Timestamptz(6)
+  expiresAt  DateTime 
+  createdAt  DateTime  
+  updatedAt  DateTime  
 
   @@index([identifier])
 }
@@ -67,7 +67,7 @@ model watermarkToken {
   id        String   @id @default(cuid())
   token     String   @unique
   userId    String
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  createdAt DateTime  
 
   @@index([userId])
   @@index([token])
